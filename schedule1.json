@@ -1,0 +1,62 @@
+{
+	"Planet": {
+		"schedule": {
+			"pair": [
+				{
+					"title": "Математический анализ",
+					"type": "Практика",
+					"time": {
+						"start": "8:20",
+						"end": "9:50"
+					},
+					"format": "fulltime",
+					"place": {
+						"address": "Кронверский пр., д.49, лит.А",
+						"classroom": "2414"
+					},
+					"teacher": {
+						"surname": "Юрова",
+						"name": "Татьяна",
+						"lastname": "Сергеевна"
+					}
+				},
+				{
+					"title": "Линейная алгебра",
+					"type": "Лекция",
+					"time": {
+						"start": "10:00",
+						"end": "11:30"
+					},
+					"format": "fulltime",
+					"place": {
+						"address": "Кронверский пр., д.49, лит.А",
+						"classroom": "2426"
+					},
+					"teacher": {
+						"surname": "Рванова",
+						"name": "Алла",
+						"lastname": ""
+					}
+				},
+				{
+					"title": "Линейная алгебра",
+					"type": "Практика",
+					"time": {
+						"start": "11:40",
+						"end": "13:10"
+					},
+					"format": "fulltime",
+					"place": {
+						"address": "Кронверкский пр., д.49, лит.А",
+						"classroom": "1428"
+					},
+					"teacher": {
+						"surname": "Рванова",
+						"name": "Алла",
+						"lastname": ""
+					}
+				}
+			]
+		}
+	}
+}
