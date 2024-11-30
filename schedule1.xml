@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Planet>
+    <schedule>
+        <pair>
+            <title>Математический анализ</title>
+            <type>Практика</type>
+            <time>
+                <start>8:20</start>
+                <end>9:50</end>
+            </time>
+            <format>fulltime</format>
+            <place>
+                <address>Кронверский пр., д.49, лит.А</address>
+                <classroom>2414</classroom>
+            </place>
+            <teacher>
+                <surname>Юрова</surname>
+                <name>Татьяна</name>
+                <lastname>Сергеевна</lastname>
+            </teacher>
+        </pair>
+        <pair>
+            <title>Линейная алгебра</title>
+            <type>Лекция</type>
+            <time>
+                <start>10:00</start>
+                <end>11:30</end>
+            </time>
+            <format>fulltime</format>
+            <place>
+                <address>Кронверский пр., д.49, лит.А</address>
+                <classroom>2426</classroom>
+            </place>
+            <teacher>
+                <surname>Рванова</surname>
+                <name>Алла</name>
+                <lastname></lastname>
+            </teacher>
+        </pair>
+        <pair>
+            <title>Линейная алгебра</title>
+            <type>Практика</type>
+            <time>
+                <start>11:40</start>
+                <end>13:10</end>
+            </time>
+            <format>fulltime</format>
+            <place>
+                <address>Кронверкский пр., д.49, лит.А</address>
+                <classroom>1428</classroom>
+            </place>
+            <teacher>
+                <surname>Рванова</surname>
+                <name>Алла</name>
+                <lastname></lastname>
+            </teacher>
+        </pair>
+    </schedule>
+</Planet>
