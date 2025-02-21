@@ -1,0 +1,222 @@
+@startuml
+scale max 4000 width
+class App {
++static void main(String[] args)
+}
+App --down[#AAA]-o places.FilledPlace
+App -down[#AAA]--o places.FilledPlace
+App -down[#AAA]-o shorties.RegularShortly
+App -down[#AAA]--o items.SwitchableItem
+App -down[#AAA]-o items.Phone
+App --down[#AAA]-o shorties.MasterShorty
+App -down[#AAA]--o shorties.SlaveShorty
+App -down[#AAA]-o shorties.SlaveShorty
+App -down[#AAA]--o items.SwitchableItem
+App -down[#AAA]-o places.FilledPlace
+'!>10 App --down[#AAA]-o shorties.RegularShortly
+'!>10 App -down[#AAA]--o items.LearnableSubject
+'!>10 App -down[#AAA]-o items.LearnableSubject
+'!>10 App -down[#AAA]--o items.Exercises
+'!>10 App -down[#AAA]-o places.RegularPlace
+'!>10 App --down[#AAA]-o places.FilledPlace
+'!>10 App -down[#AAA]--o shorties.RegularShortly
+'!>10 App -down[#AAA]-o items.Promises
+
+abstract class shorties.AbstractShorty {
+-NamesRecord name
+-AbstractPlace location
+-int current_name = 1
++AbstractShorty(String name_1, String name_2, String name_3, AbstractPlace location)
++AbstractShorty(String name, AbstractPlace location)
++AbstractShorty(String name_1, String name_2, AbstractPlace location)
++void selectFirstName()
++void selectSecondName()
++void selectThirdName()
++AbstractPlace getLocation()
++void setLocation(AbstractPlace location)
++String getName()
++void printName()
++boolean equals(Object otherObject)
++int hashCode()
++String toString()
+}
+
+
+class shorties.MasterShorty extends shorties.AbstractShorty implements shorties.interfaces.ICanSetTask {
+-Task task
++MasterShorty(String name_1, String name_2, String name_3, AbstractPlace location, Task task)
++MasterShorty(String name, AbstractPlace location, Task task)
++MasterShorty(String name_1, String name_2, AbstractPlace location, Task task)
++void setTask(Task task)
++Task getTask()
+}
+
+
+class shorties.RegularShortly extends shorties.AbstractShorty implements shorties.interfaces.ICanDoSomething {
++RegularShortly(String name_1, String name_2, String name_3, AbstractPlace location)
++RegularShortly(String name, AbstractPlace location)
++RegularShortly(String name_1, String name_2, AbstractPlace location)
++boolean startDoThing(Task task, boolean include_location, String reason)
++boolean finishDoThing(Task task, boolean include_location, String reason)
++boolean justDoThing(Task task, boolean include_location, String reason)
+}
+
+
+class shorties.SlaveShorty extends shorties.AbstractShorty implements shorties.interfaces.ISlave {
+-MasterShorty master
+-boolean unlocked = false
+-Random rng = new Random()
++SlaveShorty(String name_1, String name_2, String name_3, AbstractPlace location, MasterShorty master)
++SlaveShorty(String name, AbstractPlace location, MasterShorty master)
++SlaveShorty(String name_1, String name_2, AbstractPlace location, MasterShorty master)
++void unlockNextAction()
++boolean startDoThing(Task task, boolean include_location, String reason) throws NotPermittedTaskException
++boolean finishDoThing(Task task, boolean include_location, String reason) throws NotPermittedTaskException
++boolean justDoThing(Task task, boolean include_location, String reason) throws NotPermittedTaskException
+}
+shorties.SlaveShorty -down[#AAA]--o exceptions.NotPermittedTaskException
+shorties.SlaveShorty -down[#AAA]-o exceptions.NotPermittedTaskException
+shorties.SlaveShorty --down[#AAA]-o exceptions.NotPermittedTaskException
+
+interface shorties.interfaces.ICanDoSomething {
+boolean startDoThing(Task task, boolean include_location, String reason)
+boolean finishDoThing(Task task, boolean include_location, String reason)
+boolean justDoThing(Task task, boolean include_location, String reason)
+default boolean startDoThing(Task task, boolean include_location)
+
+default boolean finishDoThing(Task task, boolean include_location)
+
+default boolean justDoThing(Task task, boolean include_location)
+
+}
+
+
+interface shorties.interfaces.ICanSetTask {
+Task getTask()
+void setTask(Task task)
+}
+
+
+interface shorties.interfaces.ISlave {
+void unlockNextAction()
+boolean startDoThing(Task task, boolean include_location, String reason) throws NotPermittedTaskException
+boolean finishDoThing(Task task, boolean include_location, String reason) throws NotPermittedTaskException
+boolean justDoThing(Task task, boolean include_location, String reason) throws NotPermittedTaskException
+default boolean startDoThing(Task task, boolean include_location) throws NotPermittedTaskException
+
+default boolean finishDoThing(Task task, boolean include_location) throws NotPermittedTaskException
+
+default boolean justDoThing(Task task, boolean include_location) throws NotPermittedTaskException
+
+}
+
+
+abstract class places.AbstractPlace {
+-String name
+#AbstractPlace(String name)
+#String getPlaceName()
+abstract +String getName()
++boolean equals(Object otherObject)
++int hashCode()
++String toString()
+}
+
+
+class places.FilledPlace extends places.AbstractPlace implements places.interfaces.IHasItems {
+-ArrayList<AbstractItem> items = new ArrayList<>()
++FilledPlace(String name)
++void addItem(AbstractItem item)
++AbstractItem getItem(int id)
++String getName()
+}
+
+
+class places.RegularPlace extends places.AbstractPlace {
++RegularPlace(String name)
++String getName()
+}
+
+
+interface places.interfaces.IHasItems {
+void addItem(AbstractItem item)
+AbstractItem getItem(int id)
+}
+
+
+abstract class items.AbstractItem {
+-String name
+#AbstractItem(String name)
++String getName()
++abstract void interact()
+}
+
+
+class items.Exercises extends items.AbstractItem {
++Exercises(String name)
++void interact()
+}
+
+
+class items.LearnableSubject extends items.AbstractItem {
++LearnableSubject(String name)
++void interact()
+}
+
+
+class items.Phone extends items.AbstractItem {
++Phone(String name)
++void interact()
+}
+
+
+class items.Promises extends items.AbstractItem {
++Promises(String name)
++void interact()
+}
+
+
+class items.SwitchableItem extends items.AbstractItem {
+-boolean state = false
++SwitchableItem(String name)
+-void turnOn()
+-void turnOff()
++void interact()
+}
+
+
+class exceptions.NotPermittedTaskException extends Exception {
++NotPermittedTaskException(String message)
++String getMessage()
+}
+
+
+struct enums.NamesRecord {
+-String name_1
+-String name_2
+-String name_3
+}
+
+
+enum enums.Task {
+MAKE_ELECTRIC_LIGHTING("проводить электрическое освещение"),
+MAKE_PHONE_LINES("устроить телефон"),
+MAKE_TV("телевизор"),
+GOT_SMARTER("поумнел"),
+LEARN_TO_READ("учиться читать"),
+LEARN_TO_WRITE("учиться писать"),
+READ_GRAMMAR("читать грамматику"),
+READ_ALGEBRA("читать арифметику"),
+DO_EXERCISES("задачки"),
+WANT_TO_LEARN_PHYSICS("хотеть изучать физику"),
+PROMISE_A_LOT("наобещает с три короба"),
+DO_A_LOT("сказал, что сделает то и это, и горы свернёт"),
+WORK_FULLY("работать в полную силу"),
+WANT_TO_LEARN("хотеть учится"),
+DO_ALL_THIS("всё это")
+-final String text
+Task(String text)
++String getText()
+}
+
+
+@enduml

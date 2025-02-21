@@ -1,0 +1,222 @@
+@startuml
+scale max 4000 width
+class App {
++static void main(String[] args)
+}
+App --down[#AAA]-o FilledPlace
+App -down[#AAA]--o FilledPlace
+App -down[#AAA]-o RegularShortly
+App -down[#AAA]--o SwitchableItem
+App -down[#AAA]-o Phone
+App --down[#AAA]-o MasterShorty
+App -down[#AAA]--o SlaveShorty
+App -down[#AAA]-o SlaveShorty
+App -down[#AAA]--o SwitchableItem
+App -down[#AAA]-o FilledPlace
+'!>10 App --down[#AAA]-o RegularShortly
+'!>10 App -down[#AAA]--o LearnableSubject
+'!>10 App -down[#AAA]-o LearnableSubject
+'!>10 App -down[#AAA]--o Exercises
+'!>10 App -down[#AAA]-o RegularPlace
+'!>10 App --down[#AAA]-o FilledPlace
+'!>10 App -down[#AAA]--o RegularShortly
+'!>10 App -down[#AAA]-o Promises
+
+abstract class AbstractShorty {
+-NamesRecord name
+-AbstractPlace location
+-int current_name = 1
++AbstractShorty(String name_1, String name_2, String name_3, AbstractPlace location)
++AbstractShorty(String name, AbstractPlace location)
++AbstractShorty(String name_1, String name_2, AbstractPlace location)
++void selectFirstName()
++void selectSecondName()
++void selectThirdName()
++AbstractPlace getLocation()
++void setLocation(AbstractPlace location)
++String getName()
++void printName()
++boolean equals(Object otherObject)
++int hashCode()
++String toString()
+}
+
+
+class MasterShorty extends AbstractShorty implements ICanSetTask {
+-Task task
++MasterShorty(String name_1, String name_2, String name_3, AbstractPlace location, Task task)
++MasterShorty(String name, AbstractPlace location, Task task)
++MasterShorty(String name_1, String name_2, AbstractPlace location, Task task)
++void setTask(Task task)
++Task getTask()
+}
+
+
+class RegularShortly extends AbstractShorty implements ICanDoSomething {
++RegularShortly(String name_1, String name_2, String name_3, AbstractPlace location)
++RegularShortly(String name, AbstractPlace location)
++RegularShortly(String name_1, String name_2, AbstractPlace location)
++boolean startDoThing(Task task, boolean include_location, String reason)
++boolean finishDoThing(Task task, boolean include_location, String reason)
++boolean justDoThing(Task task, boolean include_location, String reason)
+}
+
+
+class SlaveShorty extends AbstractShorty implements ISlave {
+-MasterShorty master
+-boolean unlocked = false
+-Random rng = new Random()
++SlaveShorty(String name_1, String name_2, String name_3, AbstractPlace location, MasterShorty master)
++SlaveShorty(String name, AbstractPlace location, MasterShorty master)
++SlaveShorty(String name_1, String name_2, AbstractPlace location, MasterShorty master)
++void unlockNextAction()
++boolean startDoThing(Task task, boolean include_location, String reason) throws NotPermittedTaskException
++boolean finishDoThing(Task task, boolean include_location, String reason) throws NotPermittedTaskException
++boolean justDoThing(Task task, boolean include_location, String reason) throws NotPermittedTaskException
+}
+SlaveShorty -down[#AAA]--o NotPermittedTaskException
+SlaveShorty -down[#AAA]-o NotPermittedTaskException
+SlaveShorty --down[#AAA]-o NotPermittedTaskException
+
+interface ICanDoSomething {
+boolean startDoThing(Task task, boolean include_location, String reason)
+boolean finishDoThing(Task task, boolean include_location, String reason)
+boolean justDoThing(Task task, boolean include_location, String reason)
+default boolean startDoThing(Task task, boolean include_location)
+
+default boolean finishDoThing(Task task, boolean include_location)
+
+default boolean justDoThing(Task task, boolean include_location)
+
+}
+
+
+interface ICanSetTask {
+Task getTask()
+void setTask(Task task)
+}
+
+
+interface ISlave {
+void unlockNextAction()
+boolean startDoThing(Task task, boolean include_location, String reason) throws NotPermittedTaskException
+boolean finishDoThing(Task task, boolean include_location, String reason) throws NotPermittedTaskException
+boolean justDoThing(Task task, boolean include_location, String reason) throws NotPermittedTaskException
+default boolean startDoThing(Task task, boolean include_location) throws NotPermittedTaskException
+
+default boolean finishDoThing(Task task, boolean include_location) throws NotPermittedTaskException
+
+default boolean justDoThing(Task task, boolean include_location) throws NotPermittedTaskException
+
+}
+
+
+abstract class AbstractPlace {
+-String name
+#AbstractPlace(String name)
+#String getPlaceName()
+abstract +String getName()
++boolean equals(Object otherObject)
++int hashCode()
++String toString()
+}
+
+
+class FilledPlace extends AbstractPlace implements IHasItems {
+-ArrayList<AbstractItem> items = new ArrayList<>()
++FilledPlace(String name)
++void addItem(AbstractItem item)
++AbstractItem getItem(int id)
++String getName()
+}
+
+
+class RegularPlace extends AbstractPlace {
++RegularPlace(String name)
++String getName()
+}
+
+
+interface IHasItems {
+void addItem(AbstractItem item)
+AbstractItem getItem(int id)
+}
+
+
+abstract class AbstractItem {
+-String name
+#AbstractItem(String name)
++String getName()
++abstract void interact()
+}
+
+
+class Exercises extends AbstractItem {
++Exercises(String name)
++void interact()
+}
+
+
+class LearnableSubject extends AbstractItem {
++LearnableSubject(String name)
++void interact()
+}
+
+
+class Phone extends AbstractItem {
++Phone(String name)
++void interact()
+}
+
+
+class Promises extends AbstractItem {
++Promises(String name)
++void interact()
+}
+
+
+class SwitchableItem extends AbstractItem {
+-boolean state = false
++SwitchableItem(String name)
+-void turnOn()
+-void turnOff()
++void interact()
+}
+
+
+class NotPermittedTaskException extends Exception {
++NotPermittedTaskException(String message)
++String getMessage()
+}
+
+
+struct NamesRecord {
+-String name_1
+-String name_2
+-String name_3
+}
+
+
+enum Task {
+MAKE_ELECTRIC_LIGHTING("проводить электрическое освещение"),
+MAKE_PHONE_LINES("устроить телефон"),
+MAKE_TV("телевизор"),
+GOT_SMARTER("поумнел"),
+LEARN_TO_READ("учиться читать"),
+LEARN_TO_WRITE("учиться писать"),
+READ_GRAMMAR("читать грамматику"),
+READ_ALGEBRA("читать арифметику"),
+DO_EXERCISES("задачки"),
+WANT_TO_LEARN_PHYSICS("хотеть изучать физику"),
+PROMISE_A_LOT("наобещает с три короба"),
+DO_A_LOT("сказал, что сделает то и это, и горы свернёт"),
+WORK_FULLY("работать в полную силу"),
+WANT_TO_LEARN("хотеть учится"),
+DO_ALL_THIS("всё это")
+-final String text
+Task(String text)
++String getText()
+}
+
+
+@enduml
